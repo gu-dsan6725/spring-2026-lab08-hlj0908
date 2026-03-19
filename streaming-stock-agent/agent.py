@@ -265,3 +265,77 @@ def execute_tool_call(
     except Exception as e:
         logger.error(f"Error executing tool {tool_name}: {e}")
         return json.dumps({"error": str(e)})
+
+
+
+def _compare_stocks(
+    symbol1: str,
+    symbol2: str
+) -> Dict[str, Any]:
+    """Compare two stocks side-by-side.
+
+    Args:
+        symbol1: First stock symbol (e.g., 'AAPL')
+        symbol2: Second stock symbol (e.g., 'MSFT')
+
+    Returns:
+        Dictionary with comparison data for both stocks
+    """
+    try:
+        stock1 = _get_stock_price(symbol1)
+        stock2 = _get_stock_price(symbol2)
+
+        if not stock1 or not stock2:
+            return {
+                "error": "Failed to fetch stock data for one or both symbols"
+            }
+
+        return {
+            "comparison": {
+                "symbol1": symbol1.upper(),
+                "symbol2": symbol2.upper(),
+                "stock1": {
+                    "symbol": symbol1.upper(),
+                    "current_price": stock1.get("current_price"),
+                    "company_name": stock1.get("company_name"),
+                    "market_cap": stock1.get("market_cap")
+                },
+                "stock2": {
+                    "symbol": symbol2.upper(),
+                    "current_price": stock2.get("current_price"),
+                    "company_name": stock2.get("company_name"),
+                    "market_cap": stock2.get("market_cap")
+                }
+            }
+        }
+
+    except Exception as e:
+        return {
+            "error": f"Error comparing stocks: {str(e)}"
+        }
+    
+
+
+STOCK_TOOLS.append({
+    "name": "compare_stocks",
+    "description": (
+        "Compare two stocks side-by-side including price, company name, "
+        "and market capitalization. Use this when the user asks to compare "
+        "two companies or asks which stock is better."
+    ),
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "symbol1": {
+                "type": "string",
+                "description": "First stock symbol to compare (e.g., AAPL)"
+            },
+            "symbol2": {
+                "type": "string",
+                "description": "Second stock symbol to compare (e.g., MSFT)"
+            }
+        },
+        "required": ["symbol1", "symbol2"]
+    },
+    "function": _compare_stocks
+})

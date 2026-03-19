@@ -1,0 +1,66 @@
+Testing /ping endpoint...
+Status: 200
+Response: {'status': 'ok'}
+
+============================================================
+MULTI-TURN CONVERSATION TEST
+============================================================
+
+Session: test_session_123
+Query: What is the current price of Apple stock?
+------------------------------------------------------------
+
+[Tool calls starting...]
+
+[Calling tool: get_stock_price with args {'ticker': 'AAPL'}]
+[Tool calls completed]
+
+As of 10:56 PM ET on March 19, 2026 (post-market), **Apple Inc. (AAPL)** stock is trading at **$248.96**, according to Yahoo Finance data.  
+
+- **Previous Close:** $249.94  
+- **Change:** -$0.98 (-0.39%)  
+
+This price reflects after-hours trading activity. Keep in mind that post-market prices may differ from the next day's official opening price. Let me know if you'd like additional details!
+[Done]
+
+============================================================
+
+Session: test_session_123
+Query: How has it changed in the last 30 days?
+------------------------------------------------------------
+
+[Tool calls starting...]
+
+[Calling tool: get_stock_history with args {'days': 30, 'ticker': 'AAPL'}]
+[Tool calls completed]
+
+Over the past 30 days (Feb 18, 2026 – Mar 19, 2026 post-market), **Apple (AAPL)** stock has:  
+
+- **Dropped from $264.35 to $248.96**  
+- **Lost 5.82% (-$15.39)**  
+- **Hit a high of $276.11** and a **low of $247.30**  
+
+Average daily trading volume was **38.6 million shares** during this period. The stock has shown volatility, with a ~$29 range between its highest and lowest prices.  
+
+Would you like insights into the reasons behind this trend or details about Apple’s business performance?
+[Done]
+
+============================================================
+
+Session: test_session_123
+Query: What about Tesla?
+------------------------------------------------------------
+
+[Tool calls starting...]
+
+[Calling tool: get_stock_price with args {'ticker': 'TSLA'}]
+
+[Calling tool: get_stock_history with args {'days': 30, 'ticker': 'TSLA'}]
+[Tool calls completed]
+
+
+[Error: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `qwen/qwen3-32b` in organization `org_01kemz17yqefcr9h5f634hnf6z` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5760, Requested 1386. Please try again in 11.46s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+]
+
+============================================================
+
